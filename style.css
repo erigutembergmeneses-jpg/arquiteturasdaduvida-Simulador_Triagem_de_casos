@@ -17,7 +17,6 @@ body {
     padding: 0 24px;
 }
 
-/* Cabeçalho */
 .cabecalho {
     background: linear-gradient(135deg, #0f2b3d, #1a4b6d);
     color: white;
@@ -48,7 +47,6 @@ body {
     display: inline-block;
 }
 
-/* Cards */
 .contexto-card, .simulador-card {
     background: white;
     border-radius: 24px;
@@ -75,7 +73,6 @@ p {
     color: #334155;
 }
 
-/* Destaque teórico */
 .destaque-teorico {
     background-color: #f0f9ff;
     border-left: 6px solid #0284c7;
@@ -97,7 +94,6 @@ p {
     margin-bottom: 12px;
 }
 
-/* Botão */
 .btn {
     background-color: #0f2b3d;
     color: white;
@@ -123,13 +119,18 @@ p {
     transform: translateY(0);
 }
 
-/* Painel de Resultados */
 .resultado-painel {
     background-color: #f1f5f9;
     border-radius: 24px;
     padding: 28px;
     margin-top: 32px;
     border: 1px solid #cbd5e1;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .resultado-painel h3 {
@@ -183,7 +184,6 @@ p {
     font-size: 1.1rem;
 }
 
-/* Tabela Conceitual */
 .tabela-conceitual {
     margin: 40px 0;
 }
@@ -225,6 +225,7 @@ tr:last-child td {
     border-radius: 30px;
     font-weight: 600;
     font-size: 0.85rem;
+    display: inline-block;
 }
 
 .detectado-nao {
@@ -234,9 +235,9 @@ tr:last-child td {
     border-radius: 30px;
     font-weight: 600;
     font-size: 0.85rem;
+    display: inline-block;
 }
 
-/* Rodapé */
 .rodape {
     text-align: center;
     padding: 32px 0;
@@ -252,7 +253,6 @@ tr:last-child td {
     font-size: 0.85rem;
 }
 
-/* Responsividade */
 @media (max-width: 700px) {
     .cabecalho h1 { font-size: 1.8rem; }
     .resultado-grid { grid-template-columns: 1fr; }
