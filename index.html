@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador Revisa · Erros Cognitivos Silenciosos</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Fonte moderna para melhor legibilidade -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
@@ -19,7 +18,6 @@
     </header>
 
     <main class="container">
-        <!-- Seção de Contexto -->
         <section class="contexto-card">
             <h2>🧠 O Desafio do Analista</h2>
             <p>Você assume o papel de analista do Projeto Revisa e é confrontado com <strong>20 casos reais brasileiros</strong>.
@@ -31,32 +29,27 @@
             </div>
         </section>
 
-        <!-- Área do Simulador -->
         <section class="simulador-card">
             <h2>⚙️ Iniciar Análise dos 20 Casos</h2>
             <p>Clique no botão abaixo para simular a triagem e descobrir os resultados estatísticos.</p>
             <button id="btn-analisar" class="btn">🔍 Realizar Triagem</button>
 
-            <!-- Resultados serão exibidos aqui -->
             <div id="resultado-painel" class="resultado-painel" style="display: none;">
                 <h3>📊 Relatório da Triagem</h3>
                 <div class="resultado-grid">
                     <div class="resultado-item" id="result-conservador">
-                        <span class="resultado-valor">0</span>
+                        <span class="resultado-valor" id="valor-conservador">0</span>
                         <span class="resultado-rotulo">Erros eliminados<br>(Triagem Conservadora)</span>
                     </div>
                     <div class="resultado-item" id="result-falha">
-                        <span class="resultado-valor">0</span>
+                        <span class="resultado-valor" id="valor-falha">0</span>
                         <span class="resultado-rotulo">Erros não detectados<br>(Falha da "Prova Nova")</span>
                     </div>
                 </div>
-                <div class="resultado-texto" id="texto-interpretacao">
-                    <!-- Interpretação dinâmica aparecerá aqui -->
-                </div>
+                <div class="resultado-texto" id="texto-interpretacao"></div>
             </div>
         </section>
 
-        <!-- Tabela Conceitual dos Casos (opcional para contexto) -->
         <section class="tabela-conceitual">
             <h3>📌 Exemplos de Erros Silenciosos nos Casos</h3>
             <table>
@@ -70,7 +63,7 @@
                 <tbody>
                     <tr>
                         <td>Viés de confirmação</td>
-                        <td>Investidor só busca provas que confirmem a hipótese inicial.</td>
+                        <td>Investigador só busca provas que confirmem a hipótese inicial.</td>
                         <td><span class="detectado-sim">✅ Sim</span></td>
                     </tr>
                     <tr>
@@ -79,8 +72,8 @@
                         <td><span class="detectado-sim">✅ Sim</span></td>
                     </tr>
                     <tr>
-                        <td>Desconsideração de contraprova</td>
-                        <td>Prova robusta nova é aceita, mas a coleta inicial era contaminada.</td>
+                        <td>Contaminação por prova ilícita</td>
+                        <td>Prova nova robusta deriva de uma coleta inicial contaminada.</td>
                         <td><span class="detectado-nao">❌ Falha</span></td>
                     </tr>
                 </tbody>
