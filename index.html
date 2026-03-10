@@ -4,88 +4,590 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador Revisa · Erros Cognitivos Silenciosos</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background-color: #f1f5f9;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Cabeçalho */
+        .cabecalho {
+            background: linear-gradient(135deg, #0f2b3d, #1e4a6b);
+            color: white;
+            padding: 48px 0;
+            margin-bottom: 32px;
+            border-bottom: 6px solid #fbbf24;
+        }
+
+        .cabecalho h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .subtitulo {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .destaque {
+            background-color: #fbbf24;
+            color: #0f2b3d;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0f2b3d;
+            border-left: 8px solid #fbbf24;
+            padding-left: 20px;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: #334155;
+            font-size: 1.05rem;
+        }
+
+        /* Badge conceitual */
+        .badge-container {
+            background-color: #f0f9ff;
+            border-left: 6px solid #0284c7;
+            padding: 24px;
+            border-radius: 16px;
+            margin: 24px 0 8px 0;
+        }
+
+        .badge {
+            background-color: #0284c7;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        /* Botão */
+        .btn {
+            background-color: #0f2b3d;
+            color: white;
+            border: none;
+            padding: 18px 42px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px -3px rgba(0,0,0,0.15);
+            margin: 24px 0 16px 0;
+            border: 2px solid transparent;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #1e4a6b;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px -5px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-container {
+            text-align: center;
+        }
+
+        /* Painel de Resultados */
+        .resultado-painel {
+            background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+            border-radius: 28px;
+            padding: 32px;
+            margin-top: 32px;
+            border: 2px solid #cbd5e1;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .resultado-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 28px 0;
+        }
+
+        .resultado-item {
+            background: white;
+            padding: 28px 20px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .resultado-valor {
+            display: block;
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .conservador .resultado-valor {
+            color: #059669;
+        }
+
+        .falha .resultado-valor {
+            color: #b91c1c;
+        }
+
+        .resultado-rotulo {
+            font-size: 1.1rem;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .resultado-texto {
+            background: white;
+            padding: 28px;
+            border-radius: 20px;
+            border: 2px dashed #94a3b8;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .resultado-texto p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Tabela */
+        .tabela-container {
+            margin: 40px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background-color: #1e293b;
+            color: white;
+            font-weight: 600;
+            padding: 18px 16px;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .detectado-sim {
+            background-color: #d1fae5;
+            color: #065f46;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+
+        .detectado-nao {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+
+        /* Rodapé */
+        .rodape {
+            text-align: center;
+            padding: 32px 0;
+            margin-top: 48px;
+            border-top: 2px solid #cbd5e1;
+            color: #475569;
+        }
+
+        .nota {
+            font-style: italic;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        /* Casos cards */
+        .casos-stats {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 24px 0;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            padding: 16px 24px;
+            border-radius: 50px;
+            border: 1px solid #cbd5e1;
+            font-weight: 500;
+        }
+
+        .stat-card span {
+            font-weight: 700;
+            color: #0f2b3d;
+            font-size: 1.2rem;
+            margin-left: 8px;
+        }
+
+        @media (max-width: 700px) {
+            .cabecalho h1 { font-size: 1.8rem; }
+            .resultado-grid { grid-template-columns: 1fr; }
+            .btn { width: 100%; }
+        }
+    </style>
 </head>
 <body>
     <header class="cabecalho">
         <div class="container">
             <h1>📋 Simulador de Triagem</h1>
-            <p class="subtitulo"><span class="destaque">Projeto Revisa</span> · Erros Cognitivos Silenciosos em Casos Reais</p>
+            <p class="subtitulo"><span class="destaque">Projeto Revisa</span> Erros Cognitivos Silenciosos em Casos Reais Brasileiros</p>
         </div>
     </header>
 
     <main class="container">
-        <section class="contexto-card">
+        <!-- Card de Contexto -->
+        <div class="card">
             <h2>🧠 O Desafio do Analista</h2>
-            <p>Você assume o papel de analista do Projeto Revisa e é confrontado com <strong>20 casos reais brasileiros</strong>.
-            Seu objetivo é identificar os erros cognitivos silenciosos que contaminam as provas iniciais.</p>
-            <p>Descubra quantos desses erros são eliminados por uma <strong>triagem conservadora</strong> e como critérios baseados apenas em "prova nova robusta" falham em detectar a contaminação probatória inicial.</p>
-            <div class="destaque-teorico">
-                <span class="badge">Conceito chave</span>
-                <p><strong>Erro cognitivo silencioso:</strong> Viés ou falha na coleta/análise inicial que não deixa vestígios óbvios, mas compromete todo o resto.</p>
+            <p>Você assume o papel de analista do <strong>Projeto Revisa</strong> e é confrontado com <strong>20 casos reais brasileiros</strong>. Seu objetivo é identificar os erros cognitivos silenciosos que contaminam as provas iniciais.</p>
+            
+            <div class="badge-container">
+                <span class="badge">🔍 Conceito fundamental</span>
+                <p style="margin-bottom: 0; font-size: 1.1rem;"><strong>Erro cognitivo silencioso:</strong> Viés ou falha na coleta ou análise inicial da prova que não deixa vestígios óbvios, mas compromete toda a cadeia probatória subsequente.</p>
             </div>
-        </section>
+            
+            <p style="margin-top: 24px;">Descubra quantos desses erros são eliminados por uma <strong>triagem conservadora</strong> e como critérios baseados apenas em "prova nova robusta" falham em detectar a contaminação probatória inicial.</p>
+        </div>
 
-        <section class="simulador-card">
-            <h2>⚙️ Iniciar Análise dos 20 Casos</h2>
-            <p>Clique no botão abaixo para simular a triagem e descobrir os resultados estatísticos.</p>
-            <button id="btn-analisar" class="btn">🔍 Realizar Triagem</button>
-
-            <div id="resultado-painel" class="resultado-painel" style="display: none;">
-                <h3>📊 Relatório da Triagem</h3>
+        <!-- Card do Simulador -->
+        <div class="card" style="text-align: center;">
+            <h2 style="text-align: left;">⚙️ Analisar 20 Casos</h2>
+            <p style="text-align: left;">Clique no botão abaixo para simular a triagem e descobrir os resultados estatísticos.</p>
+            
+            <div class="btn-container">
+                <button id="btnAnalisar" class="btn">🔍 REALIZAR TRIAGEM COMPLETA</button>
+            </div>
+            
+            <!-- Área de resultados (inicialmente oculta) -->
+            <div id="painelResultado" class="resultado-painel" style="display: none;">
+                <h3 style="margin-top: 0; text-align: left;">📊 Relatório Detalhado da Triagem</h3>
+                
                 <div class="resultado-grid">
-                    <div class="resultado-item" id="result-conservador">
-                        <span class="resultado-valor" id="valor-conservador">0</span>
-                        <span class="resultado-rotulo">Erros eliminados<br>(Triagem Conservadora)</span>
+                    <div class="resultado-item conservador">
+                        <span class="resultado-valor" id="valorConservador">0</span>
+                        <span class="resultado-rotulo">Erros cognitivos<br><strong>ELIMINADOS</strong><br>(Triagem Conservadora)</span>
                     </div>
-                    <div class="resultado-item" id="result-falha">
-                        <span class="resultado-valor" id="valor-falha">0</span>
-                        <span class="resultado-rotulo">Erros não detectados<br>(Falha da "Prova Nova")</span>
+                    <div class="resultado-item falha">
+                        <span class="resultado-valor" id="valorFalha">0</span>
+                        <span class="resultado-rotulo">Erros cognitivos<br><strong>NÃO DETECTADOS</strong><br>(Falha da "Prova Nova")</span>
                     </div>
                 </div>
-                <div class="resultado-texto" id="texto-interpretacao"></div>
+                
+                <div id="textoInterpretacao" class="resultado-texto">
+                    <!-- O texto será inserido dinamicamente -->
+                </div>
             </div>
-        </section>
+        </div>
 
-        <section class="tabela-conceitual">
-            <h3>📌 Exemplos de Erros Silenciosos nos Casos</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tipo de Erro Cognitivo</th>
-                        <th>Exemplo no Contexto Brasileiro</th>
-                        <th>Detectado por Triagem?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Viés de confirmação</td>
-                        <td>Investigador só busca provas que confirmem a hipótese inicial.</td>
-                        <td><span class="detectado-sim">✅ Sim</span></td>
-                    </tr>
-                    <tr>
-                        <td>Ancoragem em primeira prova</td>
-                        <td>Valorização excessiva do primeiro depoimento, ignorando contradições.</td>
-                        <td><span class="detectado-sim">✅ Sim</span></td>
-                    </tr>
-                    <tr>
-                        <td>Contaminação por prova ilícita</td>
-                        <td>Prova nova robusta deriva de uma coleta inicial contaminada.</td>
-                        <td><span class="detectado-nao">❌ Falha</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+        <!-- Tabela de Exemplos -->
+        <div class="card">
+            <h3>📋 Exemplos de Erros Cognitivos Silenciosos</h3>
+            <div class="tabela-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo de Erro Cognitivo</th>
+                            <th>Exemplo no Contexto Brasileiro</th>
+                            <th>Detectado por Triagem?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Viés de confirmação</strong></td>
+                            <td>Investigador seleciona apenas evidências que confirmam a hipótese inicial, ignorando contradições.</td>
+                            <td><span class="detectado-sim">✅ Detectável</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ancoragem</strong></td>
+                            <td>Valorização excessiva da primeira prova colhida, distorcendo a análise de evidências posteriores.</td>
+                            <td><span class="detectado-sim">✅ Detectável</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Contaminação por prova ilícita</strong></td>
+                            <td>Prova nova robusta deriva de uma coleta inicial contaminada (ex: confissão sob coação).</td>
+                            <td><span class="detectado-nao">❌ Frequentemente ignorado</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Efeito de halo</strong></td>
+                            <td>Credibilidade excessiva atribuída a uma testemunha por sua posição social ou profissional.</td>
+                            <td><span class="detectado-nao">❌ Dificilmente detectado</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <footer class="rodape">
-        <p>Simulador Interativo · Projeto Revisa · Casos Reais Brasileiros</p>
-        <p class="nota">Baseado em conceitos de psicologia cognitiva aplicada ao direito probatório.</p>
+        <div class="container">
+            <p>Simulador Interativo · Projeto Revisa · Casos Reais Brasileiros</p>
+            <p class="nota">Baseado em conceitos de psicologia cognitiva aplicada ao direito probatório e análise de decisões judiciais.</p>
+        </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // AGUARDAR O CARREGAMENTO COMPLETO DA PÁGINA
+        (function() {
+            console.log('🚀 Script iniciado - Versão 2.0');
+            
+            // Elementos DOM
+            let btnAnalisar = null;
+            let painelResultado = null;
+            let valorConservador = null;
+            let valorFalha = null;
+            let textoInterpretacao = null;
+            
+            // Constantes
+            const TOTAL_CASOS = 20;
+            
+            // Função para inicializar referências
+            function inicializarElementos() {
+                btnAnalisar = document.getElementById('btnAnalisar');
+                painelResultado = document.getElementById('painelResultado');
+                valorConservador = document.getElementById('valorConservador');
+                valorFalha = document.getElementById('valorFalha');
+                textoInterpretacao = document.getElementById('textoInterpretacao');
+                
+                console.log('✅ Elementos carregados:', {
+                    btn: !!btnAnalisar,
+                    painel: !!painelResultado,
+                    valorCons: !!valorConservador,
+                    valorFalha: !!valorFalha,
+                    texto: !!textoInterpretacao
+                });
+            }
+            
+            // Gerar número aleatório entre min e max
+            function randomBetween(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            
+            // Realizar a simulação
+            function simularCasos() {
+                console.log('🔄 Executando nova simulação...');
+                
+                // 1. Total de casos com erro cognitivo (entre 12 e 18 para manter realismo)
+                const casosComErro = randomBetween(12, 18);
+                
+                // 2. Taxa de detecção da triagem conservadora (entre 65% e 90%)
+                const taxaDeteccao = 0.65 + (Math.random() * 0.25);
+                
+                // 3. Erros eliminados pela triagem
+                const errosEliminados = Math.floor(casosComErro * taxaDeteccao);
+                
+                // 4. Erros não detectados
+                const errosNaoDetectados = casosComErro - errosEliminados;
+                
+                // 5. Casos limpos (sem erro)
+                const casosLimpos = TOTAL_CASOS - casosComErro;
+                
+                console.log('📊 Resultado simulação:', {
+                    casosComErro,
+                    errosEliminados,
+                    errosNaoDetectados,
+                    casosLimpos,
+                    taxaDeteccao: (taxaDeteccao * 100).toFixed(1) + '%'
+                });
+                
+                return {
+                    casosComErro,
+                    errosEliminados,
+                    errosNaoDetectados,
+                    casosLimpos,
+                    taxaDeteccao
+                };
+            }
+            
+            // Atualizar a interface com os resultados
+            function atualizarInterface(dados) {
+                if (!painelResultado || !valorConservador || !valorFalha || !textoInterpretacao) {
+                    console.error('❌ Elementos não encontrados para atualização');
+                    return;
+                }
+                
+                // Mostrar o painel
+                painelResultado.style.display = 'block';
+                
+                // Atualizar valores
+                valorConservador.textContent = dados.errosEliminados;
+                valorFalha.textContent = dados.errosNaoDetectados;
+                
+                // Criar mensagem interpretativa
+                const taxaFormatada = (dados.taxaDeteccao * 100).toFixed(1);
+                
+                let mensagemDestaque = '';
+                if (dados.errosNaoDetectados === 0) {
+                    mensagemDestaque = '🌟 <strong>Triagem perfeita!</strong> Todos os erros foram detectados, algo raro na prática forense.';
+                } else if (dados.errosNaoDetectados <= 3) {
+                    mensagemDestaque = '📌 <strong>Bom resultado.</strong> A maioria dos erros foi detectada, mas alguns silenciosos persistem.';
+                } else if (dados.errosNaoDetectados <= 6) {
+                    mensagemDestaque = '⚠️ <strong>Atenção!</strong> Um número significativo de erros passou pela triagem. Revisão adicional necessária.';
+                } else {
+                    mensagemDestaque = '🔴 <strong>Alerta crítico!</strong> Muitos erros silenciosos não foram detectados. O processo inicial pode estar comprometido.';
+                }
+                
+                const interpretacaoHTML = `
+                    <p><strong>🔍 ANÁLISE DOS 20 CASOS:</strong></p>
+                    
+                    <p>✅ Casos com erro cognitivo silencioso na origem: <strong>${dados.casosComErro}</strong> de 20</p>
+                    <p>✅ Casos limpos (sem erro): <strong>${dados.casosLimpos}</strong> de 20</p>
+                    
+                    <p style="margin-top: 20px;"><strong>📋 RESULTADO DA TRIAGEM CONSERVADORA:</strong></p>
+                    <p>• Efetividade da triagem: <strong>${taxaFormatada}%</strong></p>
+                    <p>• Erros cognitivos ELIMINADOS: <strong style="color: #059669;">${dados.errosEliminados}</strong> casos</p>
+                    <p>• Erros NÃO DETECTADOS (silenciosos): <strong style="color: #b91c1c;">${dados.errosNaoDetectados}</strong> casos</p>
+                    
+                    <p style="margin-top: 20px; padding: 16px; background: #f1f5f9; border-radius: 12px;">
+                        ${mensagemDestaque} ${dados.errosNaoDetectados > 0 ? 'Esses erros passariam despercebidos por uma análise focada apenas em "prova nova robusta", pois a contaminação está na origem.' : ''}
+                    </p>
+                    
+                    <p style="margin-top: 20px; font-style: italic; color: #475569;">
+                        <strong>Conclusão:</strong> A triagem conservadora eliminou ${dados.errosEliminados} casos com erro, mas ${dados.errosNaoDetectados} casos com erro cognitivo silencioso permanecem. Uma abordagem que confie apenas em provas novas robustas falharia ao não reexaminar a contaminação inicial desses ${dados.errosNaoDetectados} casos.
+                    </p>
+                `;
+                
+                textoInterpretacao.innerHTML = interpretacaoHTML;
+                
+                // Rolagem suave
+                painelResultado.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            
+            // Configurar evento de clique
+            function configurarEventos() {
+                if (!btnAnalisar) {
+                    console.error('❌ Botão não encontrado');
+                    return;
+                }
+                
+                // Remover eventos anteriores (para evitar duplicação)
+                btnAnalisar.replaceWith(btnAnalisar.cloneNode(true));
+                btnAnalisar = document.getElementById('btnAnalisar');
+                
+                // Adicionar novo evento
+                btnAnalisar.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    console.log('🖱️ Botão clicado!');
+                    
+                    // Executar simulação
+                    const dados = simularCasos();
+                    
+                    // Atualizar interface
+                    atualizarInterface(dados);
+                });
+                
+                console.log('✅ Evento configurado com sucesso');
+            }
+            
+            // Inicializar quando o DOM estiver pronto
+            function inicializar() {
+                console.log('🔄 Inicializando simulador...');
+                inicializarElementos();
+                
+                if (btnAnalisar) {
+                    configurarEventos();
+                    
+                    // Opcional: executar uma simulação inicial após 1 segundo
+                    setTimeout(() => {
+                        console.log('⏱️ Executando simulação inicial automática');
+                        const dados = simularCasos();
+                        atualizarInterface(dados);
+                    }, 500);
+                } else {
+                    console.error('❌ Botão não encontrado na inicialização');
+                }
+            }
+            
+            // Executar após carregamento completo
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', inicializar);
+            } else {
+                inicializar();
+            }
+        })();
+    </script>
 </body>
 </html>
